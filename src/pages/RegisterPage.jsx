@@ -1,8 +1,11 @@
-import { TextField,Button, Alert } from '@mui/material'
-import React from 'react'
-import alert from '../utility/alerts'
+import { TextField,Button, Alert } from '@mui/material';
+import React from 'react';
+import alert from '../utility/alerts';
+import { Navigate } from "react-router-dom";
+
 
 const RegisterPage = () => {
+  const [redirect, setRedirect] = React.useState(false);
   const name = React.useRef();
   const phone = React.useRef();
   const username = React.useRef();
@@ -66,16 +69,18 @@ const RegisterPage = () => {
     })
     if (response.ok){
       const data = await response.json(); 
-      alert('User Registered', 'success')
+      alert('User Registered', 'success');
+      setRedirect(true)
     } else {
       const data=await response.json();
       alert(data.error,'error')
-    
     }
-    
-  
+  };
 
+  if (redirect) {
+    return <Navigate to={'/login'} />
   }
+
   return (
     <div>
       <div className="register-page"></div>
